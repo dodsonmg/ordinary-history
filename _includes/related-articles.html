@@ -1,0 +1,11 @@
+{% assign related_posts = site.posts | where_exp: "post", "post.related_people contains page.slug" %}
+{% if related_posts.size > 0 %}
+<div class="related-articles">
+  <h3>Articles</h3>
+  <ul>
+    {% for post in related_posts %}
+      <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
