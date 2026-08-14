@@ -1,0 +1,31 @@
+# Site settings — fill in as decisions get made in later phases
+title: "Ordinary History"
+description: "A history of the people who lived here, roughly 1700s to present."
+url: "https://www.ordinaryhistory.com"
+baseurl: ""
+
+theme: minima
+markdown: kramdown
+permalink: /:categories/:title/
+
+# Silences Sass deprecation warnings from minima's bundled styles (not our
+# own code) — minima 2.5.2 is the latest release and still uses old Sass
+# syntax; revisit if/when the theme is replaced or customized in phase 4.
+sass:
+  quiet_deps: true
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Placeholder — will grow into the real data model in phase 2
+# (people, places/events collections with cross-linking).
+collections: {}
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - node_modules
+  - vendor
