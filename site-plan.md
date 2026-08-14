@@ -38,6 +38,7 @@ Michael is fine being the human bottleneck initially (no urgency to fully automa
 - 2–3 sample people with articles, deliberately cross-linked
 - Confirm links, tags, and navigation render correctly
 - Local preview
+- Status: **Complete.** 3 sample people (`_people/`: Thomas Thatcher, Jane Thatcher, Margaret Cole) and 2 sample articles (`_posts/`), cross-linked via `related_people`. Also added an automatic reverse lookup (`_includes/related-articles.html`) so person pages list the articles that reference them without needing a manually-maintained back-link — verified both directions render correctly locally and on the live deployed URL (including the empty-state case, a person with no `related_people` set). All sample content is explicitly marked as placeholder, to be replaced with real research in phase 5. No tags/taxonomy yet — still deferred (see phase 2 status). Next: phase 4.
 
 ## 4. Theme & Design
 - Pick/adapt a Jekyll theme

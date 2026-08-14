@@ -4,7 +4,7 @@ Jekyll site tracing the people who lived in the house over ~300 years, to be pub
 
 ## Status
 
-Live at [dodsonmg.github.io/ordinary-history](https://dodsonmg.github.io/ordinary-history/) (temporary path until the custom domain is pointed here — see phase 7). Phases 1–2 of the plan are done: toolchain, and the `_people` collection + cross-linking scaffolding. No real content yet — that's phase 3.
+Live at [dodsonmg.github.io/ordinary-history](https://dodsonmg.github.io/ordinary-history/) (temporary path until the custom domain is pointed here — see phase 7). Phases 1–3 of the plan are done: toolchain, the `_people` collection + cross-linking scaffolding, and sample content (3 people, 2 cross-linked articles) proving the relational model end-to-end. All sample content is placeholder, to be replaced with real research in phase 5.
 
 ## Local setup
 
