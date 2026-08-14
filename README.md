@@ -4,9 +4,9 @@ Jekyll site tracing the people who lived in the house over ~300 years, to be pub
 
 ## Status
 
-Toolchain scaffold only — no real content yet, no theme customization yet. This is phase 1 of the plan.
+Live at [dodsonmg.github.io/ordinary-history](https://dodsonmg.github.io/ordinary-history/) (temporary path until the custom domain is pointed here — see phase 7). Phases 1–2 of the plan are done: toolchain, and the `_people` collection + cross-linking scaffolding. No real content yet — that's phase 3.
 
-## Local setup (run these yourself — see note below)
+## Local setup
 
 1. Install Ruby if you don't have it (macOS ships an old system Ruby; recommend `rbenv` or `asdf` rather than using it directly):
    ```
@@ -25,21 +25,8 @@ Toolchain scaffold only — no real content yet, no theme customization yet. Thi
    ```
    Then open http://localhost:4000
 
-## GitHub setup
+## Deployment
 
-1. Create a new **empty** repo on GitHub named `ordinary-history` (no README/gitignore/license — this folder already has them).
-2. From this folder:
-   ```
-   git init
-   git add .
-   git commit -m "Initial Jekyll scaffold"
-   git branch -M main
-   git remote add origin <your-repo-url>
-   git push -u origin main
-   ```
-3. In the repo's Settings → Pages, set **Source** to "GitHub Actions" (not "Deploy from a branch") — the workflow in `.github/workflows/pages.yml` handles the build, which avoids GitHub Pages' restricted plugin whitelist.
-4. Push to `main` and the site will build and deploy automatically. The Actions tab shows build status; the Pages settings page shows the live URL once deployed.
+Repo: [github.com/dodsonmg/ordinary-history](https://github.com/dodsonmg/ordinary-history). Pages is configured with **Source: GitHub Actions** (Settings → Pages) rather than "Deploy from a branch" — the workflow in `.github/workflows/pages.yml` handles the build, which avoids GitHub Pages' restricted plugin whitelist. Every push to `main` builds and deploys automatically; check the Actions tab for status.
 
-## Note on this scaffold
-
-This was hand-authored rather than generated via `jekyll new`, because the sandbox this was built in has no outbound access to rubygems.org or github.com — package installs and git operations aren't possible from there. Everything above needs to be run and verified on your own machine. If `bundle install` or `jekyll serve` throws errors, paste the output back and we'll debug from there.
+Note: the workflow currently builds with `--baseurl "/ordinary-history"` to match the interim `github.io` project-page path. Remove that flag once the custom domain (phase 7) is live and Pages serves from root — otherwise assets will 404.

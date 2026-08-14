@@ -25,13 +25,14 @@ Michael is fine being the human bottleneck initially (no urgency to fully automa
 - Install Ruby/Jekyll/Bundler locally
 - Create GitHub repo, enable GitHub Pages
 - Local build/preview loop (`bundle exec jekyll serve`)
-- Status: scaffold hand-authored in `ordinary-history/` (Gemfile, `_config.yml`, `.gitignore`, placeholder `index.md`, GitHub Actions build workflow, README with setup steps). `_config.yml` url is set to `https://www.ordinaryhistory.com`; site title set to "Ordinary History" as a placeholder — change either if you want something different. Note: the sandbox this was built in can't reach rubygems.org or github.com, so `bundle install`/`jekyll serve`/`git push` need to be run and verified on your own machine — see `ordinary-history/README.md`. Next: run `jekyll new . --force` locally per the earlier instructions to regenerate the canonical scaffold, then report back so config/workflow can be reconciled.
+- Status: **Complete.** Ruby 4.0.6 via rbenv (pinned in `.ruby-version`, hooked into shell via `~/dotfiles/.common_config`), dependencies via `bundle install`. Repo live at `github.com/dodsonmg/ordinary-history`, deployed via GitHub Actions to `dodsonmg.github.io/ordinary-history` (Pages source: Actions, not branch — avoids the plugin whitelist). `_config.yml` url is still set to `https://www.ordinaryhistory.com` for the eventual custom domain (phase 7); the workflow overrides `--baseurl` at build time to match the interim `github.io` path in the meantime — remove that override once the domain is live.
 
 ## 2. Site Architecture & Data Model
 - Collections: `_people`, `_posts` (articles), possibly `_places`/`_events`
 - Cross-linking strategy: front-matter references (e.g. `related_people: [id1, id2]`) rendered as links via Liquid includes
 - Taxonomy: era/decade, family line, occupation, tags
 - URL structure and permalinks
+- Status: **Complete for now.** `_people` collection added (`_config.yml`, permalink `/people/:path/`); `_places`/`_events` deliberately deferred until real content shows a need for them. Cross-linking via `related_people: [slug, ...]` front matter, resolved by filename slug in `_includes/related-people.html`, wired into both `_layouts/person.html` and a local override of `_layouts/post.html`. `/people/` index page added. Taxonomy (era/decade, family line, occupation, tags) not yet decided — revisit once phase 3 sample content exists to design against. Next: phase 3.
 
 ## 3. Example Content & First Build
 - 2–3 sample people with articles, deliberately cross-linked
