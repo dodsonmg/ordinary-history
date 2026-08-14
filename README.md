@@ -25,6 +25,43 @@ Live at [dodsonmg.github.io/ordinary-history](https://dodsonmg.github.io/ordinar
    ```
    Then open http://localhost:4000
 
+## Adding content
+
+**A new article**: create `_posts/YYYY-MM-DD-title.md` (the date prefix is a Jekyll filename requirement, even though permalinks don't include it). Front matter:
+
+```yaml
+---
+layout: post
+title: "Some Title"
+related_people: [jane-thatcher, thomas-thatcher]
+---
+```
+
+It shows up on the home page automatically, and everyone listed in `related_people` automatically gets it listed on their own person page under "Articles" — that direction is a reverse lookup, not something you maintain by hand.
+
+**A new person**: create `_people/some-slug.md`:
+
+```yaml
+---
+layout: person
+title: "Full Name"
+years: "1900–1980"
+related_people: [other-persons-slug]
+---
+```
+
+They show up on `/people/` automatically. `related_people` here is for direct person-to-person relationships (spouse, parent, sibling), separate from whatever articles reference them.
+
+**Person↔person links are not automatically bidirectional.** If you want Jane's page to show Thomas and vice versa, set `related_people` on both files — only the article→person direction is automatic.
+
+**Slugs** are just the filename minus extension (and minus the date prefix, for posts). A typo'd or renamed slug doesn't error the build — it silently renders nothing, so double-check links after renaming a file.
+
+**Inline links in article/bio text**: external links (Wikipedia, an archive record, a place with no page of its own) are just normal markdown — `[some text](https://...)` — nothing special. For links to another page *on this site*, don't hardcode a path like `[Jane Thatcher](/people/jane-thatcher/)` — it'll break under the temporary `/ordinary-history` baseurl (see Deployment note below). Use Jekyll's `link` tag instead, which resolves correctly regardless of `baseurl` and fails the build loudly if the target doesn't exist, rather than silently 404ing:
+
+```liquid
+[Jane Thatcher]({% link _people/jane-thatcher.md %})
+```
+
 ## Deployment
 
 Repo: [github.com/dodsonmg/ordinary-history](https://github.com/dodsonmg/ordinary-history). Pages is configured with **Source: GitHub Actions** (Settings → Pages) rather than "Deploy from a branch" — the workflow in `.github/workflows/pages.yml` handles the build, which avoids GitHub Pages' restricted plugin whitelist. Every push to `main` builds and deploys automatically; check the Actions tab for status.
