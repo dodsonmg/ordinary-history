@@ -24,7 +24,11 @@ jobs:
           ruby-version: '4.0.6'
           bundler-cache: true
       - name: Build with Jekyll
-        run: bundle exec jekyll build --destination _site
+        # baseurl override is temporary: _config.yml's baseurl "" is correct
+        # for the eventual custom domain (serves at root, phase 7 of the
+        # plan), but the interim github.io/ordinary-history/ URL needs every
+        # link prefixed. Drop this flag once the custom domain is live.
+        run: bundle exec jekyll build --destination _site --baseurl "/ordinary-history"
         env:
           JEKYLL_ENV: production
       - uses: actions/upload-pages-artifact@v3
