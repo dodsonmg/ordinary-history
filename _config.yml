@@ -19,9 +19,13 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
 
-# Placeholder — will grow into the real data model in phase 2
-# (people, places/events collections with cross-linking).
-collections: {}
+# Phase 2 data model. Cross-linking uses front-matter references (e.g.
+# related_people: [tom-doe]) resolved by slug — see _includes/related-people.html.
+# _places/_events can be added the same way later if the content calls for it.
+collections:
+  people:
+    output: true
+    permalink: /people/:path/
 
 exclude:
   - Gemfile
