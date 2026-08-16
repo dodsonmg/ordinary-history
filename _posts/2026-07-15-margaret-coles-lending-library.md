@@ -2,6 +2,7 @@
 layout: post
 title: "Margaret Cole's Lending Library"
 related_people: [margaret-cole]
+building: coopers-row
 ---
 When Margaret Cole moved into the house in 1946, one of her first changes was to the north parlor. Within a year, neighborhood children knew it as the place to borrow a book — an informal lending library that she kept running, by most accounts, well into the 1960s.
 

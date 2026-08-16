@@ -1,8 +1,20 @@
 ---
-layout: home
+layout: page
 title: Home
 ---
 
-Welcome. This site will trace the people who lived in the house at [address], from roughly [start year] to the present.
+Ordinary History is one building historian's record of deep dives into the fabric of old buildings — extensions, trades, tenancies, and the ordinary changes that add up to a building's history — and the people who lived and worked in them.
 
-This is placeholder text from the toolchain setup step — real content comes in later phases.
+## Buildings
+
+{% if site.buildings.size > 0 %}
+<ul>
+  {% for building in site.buildings %}
+    <li><a href="{{ building.url | relative_url }}">{{ building.title }}</a>{% if building.era %} — {{ building.era }}{% endif %}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No buildings documented yet — check back soon.</p>
+{% endif %}
+
+Or browse by [Posts]({% link posts.md %}), [People]({% link people.md %}), or [Changes]({% link changes.md %}).

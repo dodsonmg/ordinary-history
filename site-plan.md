@@ -2,7 +2,7 @@
 
 Domain: ordinaryhistory.com. Directory/repo name: `ordinary-history`.
 
-A Jekyll + GitHub Pages site of blog posts/articles about the people who lived in the house over ~300 years, with heavy cross-linking between people, events, and places.
+A Jekyll + GitHub Pages site for a building historian's portfolio: deep dives into the fabric of buildings and the people who lived in them, with heavy cross-linking between people, articles, buildings, and building-fabric changes.
 
 ## Design Decisions & Considerations
 
@@ -28,17 +28,17 @@ Michael is fine being the human bottleneck initially (no urgency to fully automa
 - Status: **Complete.** Ruby 4.0.6 via rbenv (pinned in `.ruby-version`, hooked into shell via `~/dotfiles/.common_config`), dependencies via `bundle install`. Repo live at `github.com/dodsonmg/ordinary-history`, deployed via GitHub Actions to `dodsonmg.github.io/ordinary-history` (Pages source: Actions, not branch — avoids the plugin whitelist). `_config.yml` url is still set to `https://www.ordinaryhistory.com` for the eventual custom domain (phase 7); the workflow overrides `--baseurl` at build time to match the interim `github.io` path in the meantime — remove that override once the domain is live.
 
 ## 2. Site Architecture & Data Model
-- Collections: `_people`, `_posts` (articles), possibly `_places`/`_events`
+- Collections: `_people`, `_posts` (articles), `_buildings`, `_changes`
 - Cross-linking strategy: front-matter references (e.g. `related_people: [id1, id2]`) rendered as links via Liquid includes
 - Taxonomy: era/decade, family line, occupation, tags
 - URL structure and permalinks
-- Status: **Complete for now.** `_people` collection added (`_config.yml`, permalink `/people/:path/`); `_places`/`_events` deliberately deferred until real content shows a need for them. Cross-linking via `related_people: [slug, ...]` front matter, resolved by filename slug in `_includes/related-people.html`, wired into both `_layouts/person.html` and a local override of `_layouts/post.html`. `/people/` index page added. Taxonomy (era/decade, family line, occupation, tags) not yet decided — revisit once phase 3 sample content exists to design against. Next: phase 3.
+- Status: **Complete for now.** `_people` collection (`_config.yml`, permalink `/people/:path/`); the previously-deferred `_places`/`_events` idea has been realized as two collections once real content called for it: `_buildings` (permalink `/buildings/:path/`) and `_changes` (permalink `/changes/:path/`, for fabric changes — extensions, use changes like public house/artist's studio/tenement). Cross-linking via `related_people: [slug, ...]` front matter (resolved in `_includes/related-people.html`, wired into `_layouts/person.html`, `_layouts/post.html`, and `_layouts/change.html`) plus a `building: <slug>` field on people/posts/changes (resolved in `_includes/building-link.html` and, in reverse, `_includes/building-section.html` on the building page itself). Site reframed as a multi-building portfolio rather than a single-house microsite — homepage and new `/buildings/`, `/posts/`, `/changes/` index pages added, with `header_pages` in `_config.yml` pinning nav order. Taxonomy beyond `event_type` on changes (era/decade, family line, occupation, tags) still not decided — revisit once more buildings' worth of content exists to design against. Next: phase 4.
 
 ## 3. Example Content & First Build
 - 2–3 sample people with articles, deliberately cross-linked
 - Confirm links, tags, and navigation render correctly
 - Local preview
-- Status: **Complete.** 3 sample people (`_people/`: Thomas Thatcher, Jane Thatcher, Margaret Cole) and 2 sample articles (`_posts/`), cross-linked via `related_people`. Also added an automatic reverse lookup (`_includes/related-articles.html`) so person pages list the articles that reference them without needing a manually-maintained back-link — verified both directions render correctly locally and on the live deployed URL (including the empty-state case, a person with no `related_people` set). All sample content is explicitly marked as placeholder, to be replaced with real research in phase 5. No tags/taxonomy yet — still deferred (see phase 2 status). Next: phase 4.
+- Status: **Complete, expanded to two buildings.** 9 Coopers Row (`_buildings/coopers-row.md`) with 5 people (Thomas Thatcher, Jane Thatcher, Margaret Cole, Edward Voss, Ruth Emsley), 6 articles, and 4 building-fabric changes (an 1815 extension, an 1834 conversion to a public house, a 1902 conversion to an artist's studio, and a 1932 subdivision into flats later reunified in 1946) — a residential-succession narrative. Halloway House (`_buildings/halloway-house.md`) added afterward specifically to exercise the multi-building structure with a different shape of story: an architecturally significant 1958 brutalist house by architect Rowan Fenwick, 4 people (Fenwick, client Vivian Halloway, and two later owners), 6 articles, and 4 changes covering its original experimental construction, a well-intentioned but damaging 1986 repair campaign, its 2015 acquisition by a conservation organization, and a 2016–2019 restoration that had to undo the 1986 work as much as repair the original fabric. Both buildings confirmed to render independently with no cross-contamination in the `building`-scoped reverse lookups. All sample content is explicitly marked as placeholder, to be replaced with real research in phase 5. No tags/taxonomy yet beyond `event_type` on changes — still deferred (see phase 2 status). Next: phase 4.
 
 ## 4. Theme & Design
 - Pick/adapt a Jekyll theme

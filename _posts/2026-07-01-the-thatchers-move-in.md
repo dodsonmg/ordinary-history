@@ -2,6 +2,7 @@
 layout: post
 title: "The Thatchers Move In"
 related_people: [thomas-thatcher, jane-thatcher]
+building: coopers-row
 ---
 In 1771, Thomas Thatcher purchased the house that would remain in his family for the next fifty years. He and his new wife, Jane, arrived that spring — county records show the sale finalized in April, with the couple's first tax assessment filed that same autumn.
 

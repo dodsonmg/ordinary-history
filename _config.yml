@@ -1,6 +1,6 @@
 # Site settings — fill in as decisions get made in later phases
 title: "Ordinary History"
-description: "A history of the people who lived here, roughly 1700s to present."
+description: "A building historian's deep dives into the fabric of old buildings and the people who lived in them."
 url: "https://www.ordinaryhistory.com"
 baseurl: ""
 
@@ -21,11 +21,27 @@ plugins:
 
 # Phase 2 data model. Cross-linking uses front-matter references (e.g.
 # related_people: [tom-doe]) resolved by slug — see _includes/related-people.html.
-# _places/_events can be added the same way later if the content calls for it.
+# Buildings and changes attach to a building via a `building: <slug>` field,
+# resolved the same way — see _includes/building-link.html and building-section.html.
 collections:
   people:
     output: true
     permalink: /people/:path/
+  buildings:
+    output: true
+    permalink: /buildings/:path/
+  changes:
+    output: true
+    permalink: /changes/:path/
+
+# Pins nav order/scope instead of falling back to site.pages glob order.
+# "Home" is deliberately omitted — minima's header already links the site
+# title back to `/`.
+header_pages:
+  - buildings.md
+  - people.md
+  - posts.md
+  - changes.md
 
 exclude:
   - Gemfile

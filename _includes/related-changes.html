@@ -1,0 +1,11 @@
+{% assign related_changes = site.changes | where_exp: "change", "change.related_people contains page.slug" %}
+{% if related_changes.size > 0 %}
+<div class="related-changes">
+  <h3>Changes</h3>
+  <ul>
+    {% for change in related_changes %}
+      <li><a href="{{ change.url | relative_url }}">{{ change.title }}</a>{% if change.date_range %} ({{ change.date_range }}){% endif %}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

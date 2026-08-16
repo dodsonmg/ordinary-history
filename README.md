@@ -1,10 +1,10 @@
 # Ordinary History
 
-Jekyll site tracing the people who lived in the house over ~300 years, to be published at ordinaryhistory.com. See `site-plan.md` (one level up) for the overall project plan and design decisions.
+Jekyll site for a building historian's deep dives into the fabric of old buildings and the people who lived in them, to be published at ordinaryhistory.com. See `site-plan.md` (one level up) for the overall project plan and design decisions.
 
 ## Status
 
-Live at [dodsonmg.github.io/ordinary-history](https://dodsonmg.github.io/ordinary-history/) (temporary path until the custom domain is pointed here — see phase 7). Phases 1–3 of the plan are done: toolchain, the `_people` collection + cross-linking scaffolding, and sample content (3 people, 2 cross-linked articles) proving the relational model end-to-end. All sample content is placeholder, to be replaced with real research in phase 5.
+Live at [dodsonmg.github.io/ordinary-history](https://dodsonmg.github.io/ordinary-history/) (temporary path until the custom domain is pointed here — see phase 7). Phases 1–3 of the plan are done: toolchain, the `_people`/`_buildings`/`_changes` collections + cross-linking scaffolding, and sample content proving the relational model end-to-end across **two** buildings — 9 Coopers Row (1 building, 5 people, 6 articles, 4 changes) and Halloway House (1 building, 4 people, 6 articles, 4 changes), the latter added specifically to exercise the multi-building portfolio structure with a distinct narrative (an architecturally significant brutalist house requiring conservation, rather than a residential-succession story). The homepage introduces the site as a building historian's portfolio rather than a single-house microsite, with dedicated `/buildings/`, `/people/`, `/posts/`, and `/changes/` index pages. All sample content is placeholder, to be replaced with real research in phase 5.
 
 ## Local setup
 
@@ -53,6 +53,33 @@ related_people: [other-persons-slug]
 They show up on `/people/` automatically. `related_people` here is for direct person-to-person relationships (spouse, parent, sibling), separate from whatever articles reference them.
 
 **Person↔person links are not automatically bidirectional.** If you want Jane's page to show Thomas and vice versa, set `related_people` on both files — only the article→person direction is automatic.
+
+**A building fabric change**: create `_changes/some-slug.md` to document a significant change to a building — an extension, a change of use (public house, artist's studio, tenement), a subdivision, etc.:
+
+```yaml
+---
+layout: change
+title: "Some Change"
+date_range: "1834–1861"
+event_type: use-change
+related_people: [some-persons-slug]
+building: some-buildings-slug
+---
+```
+
+`related_people` and `building` are both optional — use them when the change is tied to a specific person or building. Like articles, a change's `related_people` shows up automatically on the referenced person's page under "Changes," via reverse lookup.
+
+**A building**: create `_buildings/some-slug.md`:
+
+```yaml
+---
+layout: building
+title: "Some Address"
+era: "c. 1740–present"
+---
+```
+
+People, posts, and changes attach to a building via a `building: <slug>` field in their own front matter (not the other way around) — the building page automatically lists everything that references it, via the same reverse-lookup pattern.
 
 **Slugs** are just the filename minus extension (and minus the date prefix, for posts). A typo'd or renamed slug doesn't error the build — it silently renders nothing, so double-check links after renaming a file.
 

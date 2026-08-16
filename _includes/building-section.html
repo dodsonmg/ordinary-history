@@ -1,0 +1,11 @@
+{% assign items = include.collection | where: "building", page.slug %}
+{% if items.size > 0 %}
+<div class="building-section">
+  <h3>{{ include.heading }}</h3>
+  <ul>
+    {% for item in items %}
+      <li><a href="{{ item.url | relative_url }}">{{ item.title }}</a>{% if item.years %} ({{ item.years }}){% endif %}{% if item.date_range %} ({{ item.date_range }}){% endif %}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

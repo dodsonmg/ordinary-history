@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<article class="change">
+  <h1>{{ page.title }}</h1>
+  {% if page.date_range %}<p class="change-date">{{ page.date_range }}</p>{% endif %}
+  {% if page.event_type %}<p class="change-type">{{ page.event_type }}</p>{% endif %}
+
+  {{ content }}
+
+  {% include related-people.html %}
+  {% include building-link.html %}
+</article>
