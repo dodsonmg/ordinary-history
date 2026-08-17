@@ -1,0 +1,13 @@
+{% if page.related_people and page.related_people.size > 0 %}
+<div class="related-people">
+  <h3>Related People</h3>
+  <ul>
+    {% for slug in page.related_people %}
+      {% assign person = site.people | where: "slug", slug | first %}
+      {% if person %}
+        <li><a href="{{ person.url | relative_url }}">{{ person.title }}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

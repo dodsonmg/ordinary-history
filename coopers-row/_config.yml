@@ -1,0 +1,34 @@
+# Independent Jekyll site for one building — see /README.md at the repo
+# root for how this fits into the portfolio as a whole. Nothing in this
+# directory references another building or the portfolio, except plain
+# relative links.
+title: "9 Coopers Row"
+description: "A residential-succession story spanning nearly three centuries at 9 Coopers Row."
+url: "https://www.ordinaryhistory.com"
+baseurl: "/coopers-row"
+
+theme: minima
+markdown: kramdown
+permalink: /:categories/:title/
+
+sass:
+  quiet_deps: true
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Cross-linking here is purely within this building: related_people
+# front matter (e.g. related_people: [jane-thatcher]) resolved by slug —
+# see _includes/related-people.html. There is no `building:` field or
+# reverse lookup — every person/post in this site already belongs to
+# this building by construction.
+collections:
+  people:
+    output: true
+    permalink: /people/:path/
+
+header_pages:
+  - people.md
+  - posts.md

@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Architecture: this repo holds several Jekyll sites, not one
+
+The repo root is a thin portfolio site (`_config.yml`, `index.md`, `buildings.md`, `_data/buildings.yml`) that just lists buildings and links out to them. Each building — `coopers-row/`, `halloway-house/` — is its own complete, independent Jekyll site: own `_config.yml`, own `_people`/`_posts` collections, own `_layouts`/`_includes`. Nothing in a building's directory references another building or the portfolio, except plain relative links. See `README.md`'s "Adding a building" section for the concrete pattern, and `site-plan.md` phase 2 status for why (short version: buildings don't meaningfully cross-link and each is likely to need its own bespoke content types over time, so a shared collection keyed by a `building:` field was the wrong fit).
+
 ## Before starting work
 
 Check `README.md`'s Status section and `site-plan.md`'s per-phase Status lines first — they're the source of truth for what's done vs. pending. Update both whenever a phase's status changes; this project has a habit of letting them go stale otherwise, which misleads whoever (or whatever) reads them next.
@@ -9,10 +13,12 @@ Check `README.md`'s Status section and `site-plan.md`'s per-phase Status lines f
 ## Commands
 
 ```sh
-bundle install              # install gems (Jekyll, minima, plugins) per Gemfile.lock
-bundle exec jekyll serve    # local dev server with live rebuild, http://localhost:4000
-bundle exec jekyll build    # one-off build to _site/
+bundle install    # install gems (Jekyll, minima, plugins) per Gemfile.lock — one shared install for every site
+bin/serve          # local dev server for the whole portfolio + all buildings, live rebuild, http://localhost:4000
+bin/build          # one-off build of everything to _site/ (what CI runs)
 ```
+
+Plain `bundle exec jekyll serve`/`build` only operate on one `--source` at a time, so they can't build "the whole site" anymore — use `bin/serve`/`bin/build`, which run one Jekyll invocation per site (portfolio + each building) into a combined `_site/`. To work on just one building in isolation, `cd coopers-row && bundle exec jekyll serve` works fine — it's an ordinary, complete Jekyll site on its own.
 
 There is no test suite or linter configured in this repo.
 
@@ -20,21 +26,24 @@ Ruby is managed via **rbenv**, not system Ruby (system Ruby is 2.6.10 — too ol
 
 ## Deployment
 
-GitHub Pages **Source is set to "GitHub Actions"** (not "Deploy from a branch") specifically to avoid GitHub's restricted Jekyll plugin whitelist — see `.github/workflows/pages.yml`. Every push to `main` triggers build + deploy automatically.
+GitHub Pages **Source is set to "GitHub Actions"** (not "Deploy from a branch") specifically to avoid GitHub's restricted Jekyll plugin whitelist — see `.github/workflows/pages.yml`. Every push to `main` triggers build + deploy automatically. The workflow runs `bin/build /ordinary-history`, which builds every site with a matching `--baseurl` prefix.
 
-The workflow currently builds with `--baseurl "/ordinary-history"` to match the temporary `dodsonmg.github.io/ordinary-history/` project-page URL. The real URL will eventually be `ordinaryhistory.com` (phase 7 of `site-plan.md`), at which point `_config.yml`'s `baseurl: ""` becomes correct on its own and **this flag must be removed** — leaving it in place will silently break every CSS/asset link once the site moves to serving from root (this has already happened once). This bug does not reproduce with local `jekyll serve`, since that always serves from root — after pushing, verify against the actual deployed URL (or watch the Actions run: `gh run watch <run-id> --repo dodsonmg/ordinary-history --exit-status`), not just localhost.
+The `/ordinary-history` argument matches the temporary `dodsonmg.github.io/ordinary-history/` project-page URL. The real URL will eventually be `ordinaryhistory.com` (phase 7 of `site-plan.md`), at which point every site's `_config.yml` `baseurl: ""` becomes correct on its own and **this argument must be dropped** (call `bin/build` with no argument) — leaving it in place will silently break every CSS/asset link once the site moves to serving from root (this has already happened once, before the multi-site rework). This bug does not reproduce with local `bin/serve`, since that always serves from root — after pushing, verify against the actual deployed URL (or watch the Actions run: `gh run watch <run-id> --repo dodsonmg/ordinary-history --exit-status`), not just localhost.
+
+`_config.yml`'s root-level `exclude:`/`keep_files:` lists exist specifically to make the multi-build work: `exclude` stops the portfolio's own build from also trying to process building directories as ordinary pages, and `keep_files` stops it from deleting `_site/coopers-row`/`_site/halloway-house` (written by their own separate builds) during its cleanup step. Both need a new entry whenever a building is added — see `README.md`'s "Adding a building" section.
 
 ## Cross-linking data model
 
-People and articles link to each other via `related_people: [slug1, slug2]` in YAML front matter, where each slug is a collection-item filename without extension. This is resolved into rendered links by `_includes/related-people.html`, which matches slugs against `site.people`.
+Within a single building's site, people and articles link to each other via `related_people: [slug1, slug2]` in YAML front matter, where each slug is a collection-item filename without extension. This is resolved into rendered links by that building's own `_includes/related-people.html`, which matches slugs against `site.people` — scoped to that building automatically, since a building's site only ever contains its own content.
 
-That include is wired into two layouts:
-- `_layouts/person.html` — for entries in the `_people` collection (`_config.yml`, permalink `/people/:path/`)
-- `_layouts/post.html` — a **local override** of minima's gem-provided post layout, needed because minima's own version has no related-people include. If minima is ever upgraded and its post layout changes upstream, this override needs to be manually re-applied on top of the new version.
+That include is wired into two layouts, duplicated per building (not shared — each building's `_layouts/` is a separate copy, free to diverge):
+- `_layouts/person.html` — for entries in that building's `_people` collection (permalink `/people/:path/`)
+- `_layouts/post.html` — a **local override** of minima's gem-provided post layout, needed because minima's own version has no related-people include. If minima is ever upgraded and its post layout changes upstream, this override needs to be manually re-applied on top of the new version, in every building's `_layouts/post.html`.
 
-Any new layout that should support cross-linking needs the same `{% include related-people.html %}` added by hand — it isn't automatic.
+Any new layout that should support cross-linking needs the same `{% include related-people.html %}` added by hand — it isn't automatic. There is no cross-*building* linking mechanism — buildings don't reference each other's content at all; the portfolio only links to each building's homepage via `_data/buildings.yml`.
 
 ## Pending decisions (from site-plan.md)
 
-- **Media/assets strategy**: Git LFS vs. external image hosting — must be decided before phase 5 (real content migration), since scans/photos will otherwise bloat the git repo.
-- **Taxonomy**: era/decade, family line, occupation, tags — deliberately deferred until phase 3 sample content exists to design against.
+- **Media/assets strategy**: Git LFS vs. external image hosting — must be decided before phase 5 (real content migration), since scans/photos will otherwise bloat the git repo. Now a per-building decision in principle, though likely to land the same way for both.
+- **Taxonomy**: era/decade, family line, occupation, tags — deliberately deferred until phase 3 sample content exists to design against, now per-building rather than sitewide.
+- **Per-building toolchain divergence**: all buildings currently share one root `Gemfile`/theme. If a building wants a different theme/plugin set, it can get its own `Gemfile` — not built yet since no building needs it.

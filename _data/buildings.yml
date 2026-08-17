@@ -1,0 +1,12 @@
+# Portfolio index data. Each building is its own independent Jekyll site
+# (see /coopers-row/ and /halloway-house/, each with its own _config.yml) —
+# this file exists only to drive the portfolio-level listing, since there's
+# no shared `_buildings` collection to reverse-lookup against anymore.
+- title: "9 Coopers Row"
+  era: "c. 1740–present"
+  url: "/coopers-row/"
+  blurb: "A residential-succession story spanning nearly three centuries — tradesman's dwelling, public house, artist's studio, subdivided tenement, and back again."
+- title: "Halloway House"
+  era: "1958–present"
+  url: "/halloway-house/"
+  blurb: "An architecturally significant 1958 brutalist house, the conservation problems its own construction caused, and the restoration that undid a well-intentioned repair campaign."

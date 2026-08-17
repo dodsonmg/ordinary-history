@@ -1,4 +1,10 @@
-# Site settings — fill in as decisions get made in later phases
+# Portfolio site — lists buildings and links out to each one's own,
+# fully independent Jekyll site (see /coopers-row/, /halloway-house/, each
+# with its own _config.yml). This repo root is deliberately thin: no
+# people/posts collections here, since those live entirely inside each
+# building's own site. See _data/buildings.yml for the listing data and
+# README.md for how the multi-site build works (bin/build, bin/serve, and
+# .github/workflows/pages.yml).
 title: "Ordinary History"
 description: "A building historian's deep dives into the fabric of old buildings and the people who lived in them."
 url: "https://www.ordinaryhistory.com"
@@ -6,7 +12,6 @@ baseurl: ""
 
 theme: minima
 markdown: kramdown
-permalink: /:categories/:title/
 
 # Silences Sass deprecation warnings from minima's bundled styles (not our
 # own code) — minima 2.5.2 is the latest release and still uses old Sass
@@ -14,35 +19,45 @@ permalink: /:categories/:title/
 sass:
   quiet_deps: true
 
+# Same plugin list as every building — the `plugins:` key here doesn't
+# actually gate anything under `bundle exec` (every gem in the Gemfile's
+# jekyll_plugins group loads regardless; this key only matters in GitHub's
+# native Safe Mode, which this repo avoids via Actions — see README). Kept
+# for documentation value. jekyll-feed runs even though this site has no
+# posts; it just emits an empty, valid feed.xml.
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
-
-# Phase 2 data model. Cross-linking uses front-matter references (e.g.
-# related_people: [tom-doe]) resolved by slug — see _includes/related-people.html.
-# People and posts (articles and building-fabric changes alike) attach to a
-# building via a `building: <slug>` field, resolved the same way — see
-# _includes/building-link.html and building-section.html.
-collections:
-  people:
-    output: true
-    permalink: /people/:path/
-  buildings:
-    output: true
-    permalink: /buildings/:path/
 
 # Pins nav order/scope instead of falling back to site.pages glob order.
 # "Home" is deliberately omitted — minima's header already links the site
 # title back to `/`.
 header_pages:
   - buildings.md
-  - people.md
-  - posts.md
 
+# Building subdirectories are separate Jekyll sites, each built with its
+# own `jekyll build --source <dir>` invocation (see bin/build and
+# .github/workflows/pages.yml) — excluded here so a root-sourced build
+# doesn't also try to process them as ordinary portfolio pages, which
+# would collide with their own independent output.
 exclude:
+  - coopers-row
+  - halloway-house
+  - bin
   - Gemfile
   - Gemfile.lock
   - README.md
+  - CLAUDE.md
+  - site-plan.md
   - node_modules
   - vendor
+
+# _site/coopers-row and _site/halloway-house are populated by their own,
+# separate `jekyll build` invocations (see bin/build), not by this build.
+# Without keep_files, this build's cleanup step would delete them, since
+# it has no idea they belong to anything — they'd just look like stale
+# files sitting in its own destination directory.
+keep_files:
+  - coopers-row
+  - halloway-house

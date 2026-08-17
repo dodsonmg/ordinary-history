@@ -1,4 +1,0 @@
-{% if page.building %}
-  {% assign b = site.buildings | where: "slug", page.building | first %}
-  {% if b %}<p class="building-link">Part of the history of <a href="{{ b.url | relative_url }}">{{ b.title }}</a></p>{% endif %}
-{% endif %}

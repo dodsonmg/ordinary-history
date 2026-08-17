@@ -4,10 +4,13 @@ title: Buildings
 permalink: /buildings/
 ---
 
-{% if site.buildings.size > 0 %}
+{% if site.data.buildings.size > 0 %}
 <ul>
-  {% for building in site.buildings %}
-    <li><a href="{{ building.url | relative_url }}">{{ building.title }}</a>{% if building.era %} — {{ building.era }}{% endif %}</li>
+  {% for building in site.data.buildings %}
+    <li>
+      <a href="{{ building.url | relative_url }}">{{ building.title }}</a>{% if building.era %} — {{ building.era }}{% endif %}
+      {% if building.blurb %}<br>{{ building.blurb }}{% endif %}
+    </li>
   {% endfor %}
 </ul>
 {% else %}

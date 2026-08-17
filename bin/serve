@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Local preview of the whole portfolio (all sites combined), rebuilding on
+# change, at http://localhost:4000 — the closest equivalent to plain
+# `jekyll serve` now that the site is three independent Jekyll builds.
+#
+# Buildings are kept fresh with `jekyll build --watch` in the background;
+# the portfolio is served in the foreground with `jekyll serve --watch`,
+# whose webrick server just serves whatever's on disk under _site/,
+# including the building subfolders the background watchers are writing to.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+pids=()
+cleanup() {
+  for pid in "${pids[@]}"; do kill "$pid" 2>/dev/null || true; done
+}
+trap cleanup EXIT
+
+echo "Watching coopers-row..."
+bundle exec jekyll build --source coopers-row --destination _site/coopers-row --baseurl "/coopers-row" --watch &
+pids+=("$!")
+
+echo "Watching halloway-house..."
+bundle exec jekyll build --source halloway-house --destination _site/halloway-house --baseurl "/halloway-house" --watch &
+pids+=("$!")
+
+echo "Serving portfolio + buildings at http://localhost:4000"
+bundle exec jekyll serve --source . --destination _site --baseurl "" --watch

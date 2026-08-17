@@ -1,0 +1,20 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minima";
+
+// Small "back to the portfolio" link in the header, added in
+// _includes/header.html (a local override of minima's own header include).
+// Sized/colored to read as a secondary eyebrow above the site title, not a
+// second identically-weighted link.
+.portfolio-link {
+  display: block;
+  font-size: $small-font-size;
+  color: $grey-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

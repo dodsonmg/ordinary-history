@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Builds the portfolio and every building's independent Jekyll site into
+# one combined _site/. Each building keeps its own _config.yml/collections/
+# layouts — this script just runs `jekyll build` once per site and points
+# each one's --destination at the right subfolder of the shared output.
+#
+# Usage:
+#   bin/build              # local build, served from root (matches bin/serve)
+#   bin/build /ordinary-history   # prefix every baseurl, for the interim
+#                                  # github.io/ordinary-history/ path (CI)
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+prefix="${1:-}"
+
+echo "Building portfolio..."
+bundle exec jekyll build --source . --destination _site --baseurl "$prefix"
+
+echo "Building coopers-row..."
+bundle exec jekyll build --source coopers-row --destination _site/coopers-row --baseurl "$prefix/coopers-row"
+
+echo "Building halloway-house..."
+bundle exec jekyll build --source halloway-house --destination _site/halloway-house --baseurl "$prefix/halloway-house"
+
+echo "Done — combined output in _site/"
