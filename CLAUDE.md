@@ -40,7 +40,7 @@ That include is wired into two layouts, duplicated per building (not shared — 
 - `_layouts/person.html` — for entries in that building's `_people` collection (permalink `/people/:path/`)
 - `_layouts/post.html` — a **local override** of minima's gem-provided post layout, needed because minima's own version has no related-people include. If minima is ever upgraded and its post layout changes upstream, this override needs to be manually re-applied on top of the new version, in every building's `_layouts/post.html`.
 
-Any new layout that should support cross-linking needs the same `{% include related-people.html %}` added by hand — it isn't automatic. There is no cross-*building* linking mechanism — buildings don't reference each other's content at all; the portfolio only links to each building's homepage via `_data/buildings.yml`.
+Any new layout that should support cross-linking needs the same `{% include related-people.html %}` added by hand — it isn't automatic. Buildings don't reference each other's content at all — the portfolio only links *out* to each building's homepage via `_data/buildings.yml`. The one link going the other way, building → portfolio, is the "Ordinary History" link in `_includes/header.html` (also a local override, of minima's header this time) — it computes the portfolio's URL from `site.baseurl` rather than hardcoding a path, since a building's baseurl is always the portfolio's baseurl plus one segment (see `bin/build`). Needs copying into any new building same as `person.html`/`post.html`.
 
 ## Pending decisions (from site-plan.md)
 

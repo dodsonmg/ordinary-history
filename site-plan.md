@@ -46,6 +46,7 @@ Michael is fine being the human bottleneck initially (no urgency to fully automa
 ## 4. Theme & Design
 - Pick/adapt a Jekyll theme
 - Light branding (house name, imagery, color)
+- Status: **Not started, one piece done early.** Still stock minima, no imagery/color decided. The one thing pulled forward from this phase: once buildings became independent sites (phase 2 rework), each building's header showed only its own name, with no way back to the portfolio — added a small `_includes/header.html` override (per building) with a compact "Ordinary History" link back to the portfolio root, styled via a couple of rules in `assets/main.scss` on top of `@import "minima"`. Rest of phase 4 (theme choice, imagery, color) still pending.
 
 ## 5. Migrating Real Content
 - Inventory existing material (notes, documents, photos)

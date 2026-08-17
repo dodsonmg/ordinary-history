@@ -2,7 +2,7 @@
 
 A portfolio of Jekyll sites for a building historian's deep dives into the fabric of old buildings and the people who lived in them, to be published at ordinaryhistory.com. See `site-plan.md` (one level up) for the overall project plan and design decisions.
 
-**This repo is not one Jekyll site — it's several.** The repo root is a thin portfolio site that just lists buildings and links out to them. Each building (`coopers-row/`, `halloway-house/`) is its own fully independent Jekyll site: its own `_config.yml`, its own `_people`/`_posts` collections, its own layouts and includes. Nothing in one building's directory references another building or the portfolio — buildings are separate projects that happen to live in one repo, not branches of one shared data model. See "Adding a building" below for why, and `site-plan.md`'s phase 2 status for the fuller rationale.
+**This repo is not one Jekyll site — it's several.** The repo root is a thin portfolio site that just lists buildings and links out to them. Each building (`coopers-row/`, `halloway-house/`) is its own fully independent Jekyll site: its own `_config.yml`, its own `_people`/`_posts` collections, its own layouts and includes. No building's content or collections reference another building or the portfolio — the one exception is a small "Ordinary History" link back to the portfolio in each building's header (see "Adding a building" below) — buildings are separate projects that happen to live in one repo, not branches of one shared data model. See "Adding a building" below for why, and `site-plan.md`'s phase 2 status for the fuller rationale.
 
 ## Status
 
@@ -90,10 +90,12 @@ External links (Wikipedia, an archive record, a place with no page of its own) a
 
 Buildings are deliberately not a shared collection — each one is its own Jekyll site, because in practice buildings don't cross-link much and each has its own shape of story (one might eventually want a collection type with no equivalent anywhere else — a "things" collection, a "cases" collection, whatever fits that building). Scaffolding a new one:
 
-1. Create `some-building/` at the repo root, copying the shape of `coopers-row/`: its own `_config.yml` (set `title`, `description`, and `baseurl: "/some-building"`), `_people/`, `_posts/`, `_layouts/` (`person.html`, `post.html`), `_includes/` (`related-people.html`, `related-articles.html`), plus `index.md`, `people.md`, `posts.md`.
+1. Create `some-building/` at the repo root, copying the shape of `coopers-row/`: its own `_config.yml` (set `title`, `description`, and `baseurl: "/some-building"`), `_people/`, `_posts/`, `_layouts/` (`person.html`, `post.html`), `_includes/` (`related-people.html`, `related-articles.html`, `header.html`), `assets/main.scss`, plus `index.md`, `people.md`, `posts.md`.
 2. Add it to `_config.yml`'s root-level `exclude:` and `keep_files:` lists (see the comments there for why both are needed) — otherwise the portfolio build will either choke on it as a stray page or delete its output on rebuild.
 3. Register it in `_data/buildings.yml` (title, era, blurb, `url: "/some-building/"`) so it shows up on the portfolio homepage and `/buildings/`.
 4. Add the new site to `bin/build`, `bin/serve`, and `.github/workflows/pages.yml`'s build step, following the pattern already there for `coopers-row`/`halloway-house`.
+
+**The "Ordinary History" link back to the portfolio** (top of every building page) comes from `_includes/header.html`, a local override of minima's own header — it's not automatic, so a copied-in `header.html` is required, not optional, for a new building. It computes the portfolio's URL by dropping the last path segment off the building's own `site.baseurl` (a building's baseurl is always the portfolio's baseurl plus one segment for the building itself — see `bin/build`), rather than hardcoding a path that would break between local/CI/production. `assets/main.scss` just adds a couple of rules on top of `@import "minima"` so that link reads as a small eyebrow above the site title rather than a second identical-looking link.
 
 **One shared toolchain, for now.** All buildings currently use plain minima with no theme customization, so one root `Gemfile`/`bundle install` serves every site's `jekyll build` invocation. If a building eventually wants a different theme or plugin set, it can get its own `Gemfile` and be built with `bundle install --gemfile=some-building/Gemfile` — not needed yet, so not built preemptively.
 
