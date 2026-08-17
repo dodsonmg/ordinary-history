@@ -24,6 +24,12 @@ There is no test suite or linter configured in this repo.
 
 Ruby is managed via **rbenv**, not system Ruby (system Ruby is 2.6.10 — too old for Jekyll 4.3+). The pinned version is tracked in `.ruby-version` (currently 4.0.6). The rbenv shell hook lives in `~/dotfiles/.common_config` — a separate, git-tracked dotfiles repo synced into both zsh (via Oh My Zsh's `custom/` dir) and bash (via `.bashrc`) — **not** in this project. If `rbenv`/`ruby`/`bundle` don't resolve correctly in a shell, that hook may not be sourced yet.
 
+## Before pushing to main
+
+Before every push to `main`, confirm this change is consistent with `CLAUDE.md`, `site-plan.md`'s phase Status lines, and `README.md`'s Status section — update whichever have gone stale as part of the same push, not as separate follow-up work. This is the same check as "Before starting work" above, re-run at the other end of the change.
+
+After pushing, deployment success is checked automatically (a hook runs `gh run watch`). If that hook is ever missing or disabled, fall back to the manual check documented in "Deployment" below — `gh run watch <run-id> --repo dodsonmg/ordinary-history --exit-status`, and verifying against the real deployed URL rather than local `bin/serve`, since the `/ordinary-history` baseurl bug (see below) doesn't reproduce locally.
+
 ## Deployment
 
 GitHub Pages **Source is set to "GitHub Actions"** (not "Deploy from a branch") specifically to avoid GitHub's restricted Jekyll plugin whitelist — see `.github/workflows/pages.yml`. Every push to `main` triggers build + deploy automatically. The workflow runs `bin/build /ordinary-history`, which builds every site with a matching `--baseurl` prefix.
