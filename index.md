@@ -17,4 +17,4 @@ Ordinary History is one building historian's record of deep dives into the fabri
 <p>No buildings documented yet — check back soon.</p>
 {% endif %}
 
-Or browse by [Posts]({% link posts.md %}), [People]({% link people.md %}), or [Changes]({% link changes.md %}).
+Or browse by [Posts]({% link posts.md %}) or [People]({% link people.md %}).

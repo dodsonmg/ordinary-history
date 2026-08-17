@@ -1,5 +1,5 @@
 ---
-layout: change
+layout: post
 title: "Converted to an Artist's Studio"
 date_range: "1902–1919"
 event_type: use-change

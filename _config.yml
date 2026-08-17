@@ -21,8 +21,9 @@ plugins:
 
 # Phase 2 data model. Cross-linking uses front-matter references (e.g.
 # related_people: [tom-doe]) resolved by slug — see _includes/related-people.html.
-# Buildings and changes attach to a building via a `building: <slug>` field,
-# resolved the same way — see _includes/building-link.html and building-section.html.
+# People and posts (articles and building-fabric changes alike) attach to a
+# building via a `building: <slug>` field, resolved the same way — see
+# _includes/building-link.html and building-section.html.
 collections:
   people:
     output: true
@@ -30,9 +31,6 @@ collections:
   buildings:
     output: true
     permalink: /buildings/:path/
-  changes:
-    output: true
-    permalink: /changes/:path/
 
 # Pins nav order/scope instead of falling back to site.pages glob order.
 # "Home" is deliberately omitted — minima's header already links the site
@@ -41,7 +39,6 @@ header_pages:
   - buildings.md
   - people.md
   - posts.md
-  - changes.md
 
 exclude:
   - Gemfile

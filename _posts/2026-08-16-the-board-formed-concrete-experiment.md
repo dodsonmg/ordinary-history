@@ -1,5 +1,5 @@
 ---
-layout: change
+layout: post
 title: "The Board-Formed Concrete Experiment"
 date_range: "1958"
 event_type: construction

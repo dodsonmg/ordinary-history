@@ -1,5 +1,5 @@
 ---
-layout: change
+layout: post
 title: "The Rear Extension"
 date_range: "c. 1815"
 event_type: extension

@@ -1,5 +1,5 @@
 ---
-layout: change
+layout: post
 title: "Subdivided into Flats"
 date_range: "1932–1945"
 event_type: subdivision

@@ -1,5 +1,5 @@
 ---
-layout: change
+layout: post
 title: "The Eighties Repairs"
 date_range: "1986"
 event_type: renovation

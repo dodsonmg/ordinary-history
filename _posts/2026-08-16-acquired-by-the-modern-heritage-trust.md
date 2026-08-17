@@ -1,5 +1,5 @@
 ---
-layout: change
+layout: post
 title: "Acquired by the Modern Heritage Trust"
 date_range: "2015"
 event_type: ownership-change

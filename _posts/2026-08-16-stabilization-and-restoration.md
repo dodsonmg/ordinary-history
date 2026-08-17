@@ -1,5 +1,5 @@
 ---
-layout: change
+layout: post
 title: "Stabilization and Restoration"
 date_range: "2016–2019"
 event_type: restoration

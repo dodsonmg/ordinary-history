@@ -1,5 +1,5 @@
 ---
-layout: change
+layout: post
 title: "The House Becomes a Public House"
 date_range: "1834–1861"
 event_type: use-change
